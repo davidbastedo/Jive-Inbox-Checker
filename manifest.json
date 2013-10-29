@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Jive Inbox Checker",
+  "description": "Displays the number of unread items in your Jive Inbox",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "beer-icon-grey.png",
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "scripts": ["inbox-check.js"]
+  },
+
+  "permissions": [ "http://*/*", "https://*/*" ],
+
+  "options_page": "settings.html"
+}
