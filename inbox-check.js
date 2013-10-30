@@ -1,3 +1,14 @@
+
+//
+// Action when the button is clicked in Chrome
+//
+chrome.browserAction.onClicked.addListener(function(tab) {
+  // No tabs or host permissions needed!
+  console.log('User Clicked the browserAction Button');
+  chrome.tabs.create({url: localStorage["jiveurl"]+'/inbox'})
+});
+
+
 //
 // Configuration Options
 //
