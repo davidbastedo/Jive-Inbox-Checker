@@ -1,4 +1,3 @@
-
 // Initialize logging
 var bkg = chrome.extension.getBackgroundPage();
 bkg.console.debug('Starting the extension!');
@@ -14,34 +13,95 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 
-//
-// Configuration Options
-//
 
-var INBOX_CHECKER_FREQ = 3000
-// in milliseconds
+// This starts the entire checking timer/loop
+startAPICheckTimer();
 
 
 //
-// Script
+//
+// Functions
+//
 //
 
-InboxCheckerLoop=setInterval(function(){
-  bkg.console.debug("Running loop every " + INBOX_CHECKER_FREQ / 1000 + " seconds.");
-  if (localStorage["jiveurl"])
-  {
-	  runAPIcall();
-  }else
-  {
-	bkg.console.debug("jiveurl is blank. skipping API call.");
-	chrome.browserAction.setBadgeBackgroundColor({ color: "#C0C0C0"});
-    chrome.browserAction.setBadgeText( { text: "?" });
-  }
-},INBOX_CHECKER_FREQ);
 
-// to stop the loop...
-// clearInterval(InboxCheckerLoop)
+//
+// Polling
+//
 
+function getPollingFrequency()
+{
+	if (localStorage["polling-frequency"]) // custom polling rate set locally
+	{
+		return parseInt(localStorage["polling-frequency"]);
+	}else // no custom polling rate configured. using default recommendation
+	{
+		return 30000;
+	// in milliseconds
+	}
+}
+
+
+
+
+//
+// Timer Loop Managers
+//
+
+
+function startAPICheckTimer()
+{
+	console.debug("Starting check timer");
+	bkg.console.debug("Running loop every " + getPollingFrequency() / 1000 + " seconds.");
+	InboxAPICheckerLoop=setInterval(checkJiveURL,getPollingFrequency());
+}
+
+function stopAPICheckTimer()
+{
+	console.debug("stopping check timer");
+	clearInterval(InboxAPICheckerLoop);
+}
+
+
+// Resets the CheckTimer and uses the latest polling rate value
+function restartAPICheckTimer()
+{
+	console.debug("restarting check timer");
+	clearInterval(InboxAPICheckerLoop);
+	startAPICheckTimer();
+
+}
+
+
+//
+//
+// API Processors
+//
+//
+
+
+//
+// Before we run the API call we will check to see that the jiveURL isn't blank
+//
+
+function checkJiveURL()
+{	
+	if (localStorage["jiveurl"])
+	  {
+			
+		  runAPIcall();
+	  }else
+	  {
+		bkg.console.debug("jiveurl is blank. skipping API call.");
+		chrome.browserAction.setBadgeBackgroundColor({ color: "#C0C0C0"});
+		chrome.browserAction.setBadgeText( { text: "?" });
+	  }
+}
+
+
+//
+// API Call setup and trigger
+//
 
 function runAPIcall()
 {
@@ -56,7 +116,7 @@ function runAPIcall()
 }
 
 //
-// Triggered if the an error happens when requesting the API endpoint. Likely a bad or malformed Jive URL from the user.
+// Function is triggered if the an error happens when requesting the API endpoint. Likely a bad or malformed Jive URL from the user.
 //
 function requestError()
 {
@@ -68,7 +128,7 @@ function requestError()
 
 
 //
-// Parse the API response from the web server
+// Function will parse the API response from the web server
 //
 function parseAPIresponse()
 {
