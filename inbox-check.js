@@ -52,32 +52,36 @@ function parseAPIresponse()
 
   if (this.status == 401)
   {
-    chrome.browserAction.setIcon({path:"beer-icon-grey.png"});
+
     bkg.console.log("Status Code: " + this.status + ". You're logged out");
-    chrome.browserAction.setBadgeText( { text: "" });
+    chrome.browserAction.setIcon({path:"beer-icon-grey.png"});
+    chrome.browserAction.setBadgeBackgroundColor({ color: "#C0C0C0"});
+    chrome.browserAction.setBadgeText( { text: "?" });
   } 
   else if ( this.status == 200)
   {
-    chrome.browserAction.setIcon({path:"beer-icon.png"});
+    chrome.browserAction.setIcon({path:"beer-icon-grey.png"});
     var inboxCount = JSON.parse(this.responseText.replace(/^throw [^;]*;/, '')).unread;
     bkg.console.log("Number of unread items: " + inboxCount);
 
     bkg.console.log("Updating chrome badge...");
     if (inboxCount <= 0)
     {
+      chrome.browserAction.setIcon({path:"beer-icon-grey.png"});
       chrome.browserAction.setBadgeText( { text: "" });
-
     }
     else
     {
-      chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
+      chrome.browserAction.setIcon({path:"beer-icon.png"})
       chrome.browserAction.setBadgeBackgroundColor({ color: "#D1B500"});
+      chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
     }
   } 
   else
   {
-    chrome.browserAction.setIcon({path:"beer-icon-grey.png"});
     bkg.console.log("Error retrieving API call")
+    chrome.browserAction.setIcon({path:"beer-icon-grey.png"});
+    chrome.browserAction.setBadgeBackgroundColor({ color: "#C0C0C0"});
     chrome.browserAction.setBadgeText( { text: "ERR" });
   }
 
