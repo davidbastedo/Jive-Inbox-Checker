@@ -15,6 +15,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 
 // This starts the entire checking timer/loop
+beta_setURLtoBrewspace();
 startAPICheckTimer();
 
 
@@ -23,6 +24,19 @@ startAPICheckTimer();
 // Functions
 //
 //
+
+
+//
+// Internal beta only - Set URL to be brewspace if the URL hasn't been set. 
+// TODO: Remove this when this plugin is released outside of internal testing
+//
+function beta_setURLtoBrewspace()
+{
+  if (localStorage["jiveurl"] == null) // custom polling rate set locally
+  {
+    localStorage["jiveurl"] = 'https://brewspace.jiveland.com'
+  }
+}
 
 
 //
