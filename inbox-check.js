@@ -53,6 +53,7 @@ function startAPICheckTimer()
 {
 	console.debug("Starting check timer");
 	bkg.console.debug("Running loop every " + getPollingFrequency() / 1000 + " seconds.");
+  checkJiveURL(); // Check immediately on start - don't wait for the setInterval loop
 	InboxAPICheckerLoop=setInterval(checkJiveURL,getPollingFrequency());
 }
 
@@ -158,7 +159,7 @@ function parseAPIresponse()
     else
     {
       chrome.browserAction.setIcon({path:"beer-icon.png"})
-      chrome.browserAction.setBadgeBackgroundColor({ color: "#D1B500"});
+      chrome.browserAction.setBadgeBackgroundColor({ color: "#F89838"});
       chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
     }
   } 
