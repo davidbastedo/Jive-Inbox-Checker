@@ -10,10 +10,10 @@
   },
 
   "background": {
-    "scripts": ["inbox-check.js"]
+    "page": "background.html"
   },
 
-  "permissions": [ "http://*/*", "https://*/*" ],
+  "permissions": [ "alarms", "tabs", "webNavigation", "http://*/*", "https://*/*" ],
 
   "options_page": "settings.html"
 }
