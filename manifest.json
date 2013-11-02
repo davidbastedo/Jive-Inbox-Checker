@@ -13,7 +13,7 @@
     "page": "background.html"
   },
 
-  "permissions": [ "alarms", "tabs", "webNavigation", "http://*/*", "https://*/*" ],
+  "permissions": [ "http://*/*", "https://*/*" ],
 
   "options_page": "settings.html"
 }
