@@ -172,6 +172,21 @@ function parseAPIresponse()
     }
     else
     {
+
+
+      //chrome.browserAction.getBadgeText({tabId:null}, function(result){ alert( result ) });
+      chrome.browserAction.getBadgeText({tabId:null}, DidItChange);
+
+
+      function DidItChange(result){
+
+        currentCount = result;
+        if ( currentCount < inboxCount )
+        {
+          animateFlip();
+        }
+           
+      }
       chrome.browserAction.setIcon({path:"beer-icon.png"})
       chrome.browserAction.setBadgeBackgroundColor({ color: "#F89838"});
       chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
@@ -216,11 +231,9 @@ function drawIconAtRotation() {
       Math.ceil(canvas.width/2),
       Math.ceil(canvas.height/2));
   canvasContext.rotate(2*Math.PI*ease(rotation));
-  //canvasContext.drawImage(loggedInImage,
-    //  -Math.ceil(canvas.width/2),
-    // -Math.ceil(canvas.height/2));
-canvasContext.fillStyle="red";
-canvasContext.fillRect(10,10,50,50)
+  canvasContext.drawImage(loggedInImage,
+      -Math.ceil(canvas.width/2),
+      -Math.ceil(canvas.height/2));
   canvasContext.restore();
 
   chrome.browserAction.setIcon({imageData:canvasContext.getImageData(0, 0,
