@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
 
-  "name": "Jive Inbox Checker",
+  "name": "J-Signal",
   "description": "Displays the number of unread items in your Jive Inbox",
   "version": "0.1",
 
