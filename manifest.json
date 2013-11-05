@@ -9,6 +9,15 @@
     "default_icon": "icon-grey.png"
   },
 
+  // Icons provided by https://www.iconfinder.com/iconsets/Isloo_icons_by_IconFinder
+  // Creative Commons Attribution-No Derivative Works 3.0
+   "icons": {
+      "16": "icon-128.png",
+      "48": "icon-128.png",
+      "128": "icon-128.png"
+   },
+
+
   "background": {
     "page": "background.html"
   },
