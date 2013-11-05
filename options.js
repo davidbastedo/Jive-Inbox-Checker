@@ -1,9 +1,11 @@
 
 // Saves options to localStorage.
 function save_options() {
-  var select = document.getElementById("jiveurl");
-  var jiveurl = select.value;
+  var jiveurl = document.getElementById("jiveurl").value;
   localStorage["jiveurl"] = jiveurl;
+
+  var pollingfrequency = document.getElementById("polling-frequency").value;
+  localStorage["polling-frequency"] = pollingfrequency;
 
   // Update status to let user know options were saved.
   var status = document.getElementById("status");
@@ -11,6 +13,12 @@ function save_options() {
   setTimeout(function() {
     status.innerHTML = "";
   }, 750);
+
+
+  chrome.runtime.sendMessage({savedOptions: true}, function(response) {
+    console.log(response)
+  });
+
 }
 
 
@@ -22,6 +30,15 @@ function restore_options() {
   }
   var select = document.getElementById("jiveurl");
   select.value = localStorage["jiveurl"];
+
+  var pollingfrequency = localStorage["polling-frequency"];
+  if (!pollingfrequency) {
+    return;
+  }
+  var select = document.getElementById("polling-frequency");
+  select.value = localStorage["polling-frequency"];
+
+
 }
 
 document.addEventListener('DOMContentLoaded', restore_options);

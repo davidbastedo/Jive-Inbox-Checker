@@ -32,7 +32,7 @@ startAPICheckTimer();
 //
 function beta_setURLtoBrewspace()
 {
-  if (localStorage["jiveurl"] == null) // custom polling rate set locally
+  if (localStorage["jiveurl"] == null) 
   {
     localStorage["jiveurl"] = 'https://brewspace.jiveland.com'
   }
@@ -73,7 +73,7 @@ function startAPICheckTimer()
 
 function stopAPICheckTimer()
 {
-	console.debug("stopping check timer");
+	console.debug("Stopping check timer");
 	clearInterval(InboxAPICheckerLoop);
 }
 
@@ -81,11 +81,22 @@ function stopAPICheckTimer()
 // Resets the CheckTimer and uses the latest polling rate value
 function restartAPICheckTimer()
 {
-	console.debug("restarting check timer");
+	console.debug("Restarting check timer");
 	clearInterval(InboxAPICheckerLoop);
 	startAPICheckTimer();
 
 }
+
+
+// This is triggered when the Options page is saved
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    console.log(request)
+    if ( request.savedOptions == true ){
+      console.debug('Restarting API Timer because Options have been changed')
+      restartAPICheckTimer();
+    }
+  });
 
 
 //
