@@ -6,7 +6,7 @@
   "version": "0.1",
 
   "browser_action": {
-    "default_icon": "beer-icon-grey.png"
+    "default_icon": "icon-grey.png"
   },
 
   "background": {
