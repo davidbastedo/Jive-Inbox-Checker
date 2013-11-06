@@ -200,7 +200,17 @@ function parseAPIresponse()
       }
       chrome.browserAction.setIcon({path:"icon.png"})
       chrome.browserAction.setBadgeBackgroundColor({ color: "#D00018"});
-      chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
+
+      if (inboxCount <= 50)
+      {
+        chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
+      }
+      else
+      {
+        chrome.browserAction.setBadgeText( { text: "50+" } );
+      }
+
+
     }
   } 
   else // other HTTP error
