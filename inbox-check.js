@@ -199,7 +199,7 @@ function parseAPIresponse()
            
       }
       chrome.browserAction.setIcon({path:"icon.png"})
-      chrome.browserAction.setBadgeBackgroundColor({ color: "#F89838"});
+      chrome.browserAction.setBadgeBackgroundColor({ color: "#D00018"});
       chrome.browserAction.setBadgeText( { text: inboxCount.toString() } );
     }
   } 
@@ -207,7 +207,7 @@ function parseAPIresponse()
   {
     bkg.console.error("Error retrieving API call")
     chrome.browserAction.setIcon({path:"icon-grey.png"});
-    chrome.browserAction.setBadgeBackgroundColor({ color: "#FF0000"});
+    chrome.browserAction.setBadgeBackgroundColor({ color: "#D00018"});
     chrome.browserAction.setBadgeText( { text: "ERR" });
   }
 
