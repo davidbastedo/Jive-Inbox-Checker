@@ -5,19 +5,33 @@ function save_options() {
   localStorage["jiveurl"] = jiveurl;
 
   var pollingfrequency = document.getElementById("polling-frequency").value;
-  localStorage["polling-frequency"] = pollingfrequency;
 
-  // Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 750);
+  if (pollingfrequency < 1000)
+  {
+    console.log ("polling too low")
+    var status = document.getElementById("status");
+    status.innerHTML = "ERROR: Polling Frequency cannot be less than 1000 (milliseconds)";
+    setTimeout(function() {
+      status.innerHTML = "";
+    }, 5000);
+
+  }else
+  {
+    localStorage["polling-frequency"] = pollingfrequency;
+    // Update status to let user know options were saved.
+    var status = document.getElementById("status");
+    status.innerHTML = "Options Saved.";
+    setTimeout(function() {
+      status.innerHTML = "";
+    }, 5000);
 
 
-  chrome.runtime.sendMessage({savedOptions: true}, function(response) {
+    chrome.runtime.sendMessage({savedOptions: true}, function(response) {
     console.log(response)
-  });
+    });
+  }
+
+
 
 }
 
