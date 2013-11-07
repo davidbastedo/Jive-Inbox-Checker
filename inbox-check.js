@@ -1,6 +1,4 @@
-// Initialize logging
-var bkg = chrome.extension.getBackgroundPage();
-bkg.console.debug('Starting the extension!');
+console.debug('Starting the extension!');
 
 
 //
@@ -66,7 +64,7 @@ function getPollingFrequency()
 function startAPICheckTimer()
 {
 	console.debug("Starting check timer");
-	bkg.console.debug("Running loop every " + getPollingFrequency() / 1000 + " seconds.");
+	console.debug("Running loop every " + getPollingFrequency() / 1000 + " seconds.");
 // Check immediately on start - don't wait for the setInterval loop
 	InboxAPICheckerLoop=setInterval(checkJiveURL,getPollingFrequency());
 }
@@ -118,7 +116,7 @@ function checkJiveURL()
 		  runAPIcall();
 	  }else
 	  {
-		bkg.console.debug("jiveurl is blank. skipping API call.");
+		console.debug("jiveurl is blank. skipping API call.");
 		chrome.browserAction.setBadgeBackgroundColor({ color: "#C0C0C0"});
 		chrome.browserAction.setBadgeText( { text: "?" });
 	  }
@@ -131,14 +129,14 @@ function checkJiveURL()
 
 function runAPIcall()
 {
-  //bkg.console.debug("Entering runAPIcall()...");
+  //console.debug("Entering runAPIcall()...");
   var xhr = new XMLHttpRequest();
   xhr.onload = parseAPIresponse;
   xhr.onerror = requestError;
-  bkg.console.debug("Checking: " + localStorage["jiveurl"]+"/api/core/v3/inbox?filter=unread");
+  console.debug("Checking: " + localStorage["jiveurl"]+"/api/core/v3/inbox?filter=unread");
   xhr.open("GET", localStorage["jiveurl"]+"/api/core/v3/inbox?filter=unread", true);
   xhr.send();
-  //bkg.console.debug("Exiting runAPIcall()...");
+  //console.debug("Exiting runAPIcall()...");
 }
 
 //
@@ -146,8 +144,8 @@ function runAPIcall()
 //
 function requestError()
 {
-	bkg.console.error("Error making the api call with URL: " + localStorage["jiveurl"]+"/api/core/v3/inbox?filter=unread");
-	bkg.console.error(this);
+	console.error("Error making the api call with URL: " + localStorage["jiveurl"]+"/api/core/v3/inbox?filter=unread");
+	console.error(this);
 	chrome.browserAction.setBadgeBackgroundColor({ color: "#FF0000"});
     chrome.browserAction.setBadgeText( { text: "ERR" });
 }
@@ -158,13 +156,13 @@ function requestError()
 //
 function parseAPIresponse()
 {
-  //bkg.console.debug("Entering parseAPIresponse()...");
-  //bkg.console.debug(this.responseText);
+  //console.debug("Entering parseAPIresponse()...");
+  //console.debug(this.responseText);
 
   if (this.status == 401) // Logged out
   {
 
-    bkg.console.error("Status Code: " + this.status + ". You're logged out");
+    console.error("Status Code: " + this.status + ". You're logged out");
     chrome.browserAction.setIcon({path:"icon-grey.png"});
     chrome.browserAction.setBadgeBackgroundColor({ color: "#C0C0C0"});
     chrome.browserAction.setBadgeText( { text: "?" });
@@ -173,9 +171,9 @@ function parseAPIresponse()
   {
     chrome.browserAction.setIcon({path:"icon-grey.png"});
     var inboxCount = JSON.parse(this.responseText.replace(/^throw [^;]*;/, '')).unread;
-    bkg.console.debug("Number of unread items: " + inboxCount);
+    console.debug("Number of unread items: " + inboxCount);
 
-    bkg.console.debug("Updating chrome badge...");
+    console.debug("Updating chrome badge...");
     if (inboxCount <= 0)
     {
       chrome.browserAction.setIcon({path:"icon-grey.png"});
@@ -215,14 +213,14 @@ function parseAPIresponse()
   } 
   else // other HTTP error
   {
-    bkg.console.error("Error retrieving API call")
+    console.error("Error retrieving API call")
     chrome.browserAction.setIcon({path:"icon-grey.png"});
     chrome.browserAction.setBadgeBackgroundColor({ color: "#D00018"});
     chrome.browserAction.setBadgeText( { text: "ERR" });
   }
 
 
-  //bkg.console.debug("Exiting parseAPIresponse()...");
+  //console.debug("Exiting parseAPIresponse()...");
 }
 
 
