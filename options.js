@@ -10,10 +10,13 @@ function save_options() {
   {
     console.log ("polling too low")
     var status = document.getElementById("status");
+	status.style.color = 'red';
     status.innerHTML = "ERROR: Polling Frequency cannot be less than 1000 (milliseconds)";
     setTimeout(function() {
       status.innerHTML = "";
+	  status.style.color = null;
     }, 5000);
+
 
   }else
   {
