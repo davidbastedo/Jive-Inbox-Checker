@@ -1,5 +1,7 @@
 console.debug('Starting the extension!');
 
+// Variables
+var DEFAULTPOLLING = 10000;
 
 //
 // Action when the button is clicked in Chrome
@@ -14,6 +16,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 // This starts the entire checking timer/loop
 beta_setURLtoBrewspace();
+setDefaultPolling();
 startAPICheckTimer();
 
 
@@ -38,6 +41,23 @@ function beta_setURLtoBrewspace()
 
 
 //
+// Set the polling rate to a specific rate if there isn't one already specified
+//
+function setDefaultPolling()
+{
+  if (localStorage["polling-frequency"] == null || localStorage["polling-frequency"] == "") 
+  {
+    localStorage["polling-frequency"] = DEFAULTPOLLING;
+  } else
+  {
+    console.debug("Polling rate value found on start: " + localStorage["polling-frequency"])
+  }
+
+}
+
+
+
+//
 // Polling
 //
 
@@ -48,7 +68,8 @@ function getPollingFrequency()
 		return parseInt(localStorage["polling-frequency"]);
 	}else // no custom polling rate configured. using default recommendation
 	{
-		return 30000;
+    localStorage["polling-frequency"] = DEFAULTPOLLING;
+		return DEFAULTPOLLING;
 	// in milliseconds
 	}
 }
@@ -219,7 +240,7 @@ function parseAPIresponse()
     chrome.browserAction.setBadgeText( { text: "ERR" });
   }
 
-
+  console.debug("Running next API call in " + getPollingFrequency() / 1000 + " seconds.")
   //console.debug("Exiting parseAPIresponse()...");
 }
 
