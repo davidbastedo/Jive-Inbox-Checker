@@ -191,6 +191,8 @@ function parseAPIresponse()
   else if ( this.status == 200) // Good
   {
     chrome.browserAction.setIcon({path:"icon-grey.png"});
+    json = JSON.parse(this.responseText.replace(/^throw [^;]*;/, ''));
+    parseJSON(json);
     var inboxCount = JSON.parse(this.responseText.replace(/^throw [^;]*;/, '')).unread;
     console.debug("Number of unread items: " + inboxCount);
 
@@ -244,6 +246,13 @@ function parseAPIresponse()
   //console.debug("Exiting parseAPIresponse()...");
 }
 
+
+function parseJSON(json){
+
+console.log("parsing the json for the popup!")
+process(json)
+
+}
 
 var animationFrames = 36;
 var animationSpeed = 10; // ms
