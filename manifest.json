@@ -6,7 +6,8 @@
   "version": "0.1",
 
   "browser_action": {
-    "default_icon": "icon-grey.png"
+    "default_icon": "icon-grey.png",
+    "default_popup": "popup.html"
   },
 
   // Icons provided by https://www.iconfinder.com/iconsets/Isloo_icons_by_IconFinder
